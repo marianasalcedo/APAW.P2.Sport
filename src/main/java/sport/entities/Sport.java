@@ -4,16 +4,13 @@ public class Sport {
 
     private int id;
 
-    private int value;
-
-    private User theme;
+    private String name;
 
     public Sport() {
     }
 
-    public Sport(int value, User theme) {
-        this.value = value;
-        this.theme = theme;
+    public Sport(String sportName) {
+        this.name = sportName;
     }
 
     public int getId() {
@@ -24,17 +21,14 @@ public class Sport {
 		this.id = id;
 	}
 
-	public int getValue() {
-        return value;
+	public String getName() {
+        return name;
     }
 
-    public User getTheme() {
-        return theme;
-    }
 
 	@Override
 	public String toString() {
-		return "Vote [id=" + id + ", value=" + value + ", theme=" + theme + "]";
+		return "Vote [id=" + id + ", name=" + name + "]";
 	}
 
 }

@@ -5,23 +5,25 @@ import java.util.List;
 
 import sport.daos.DaoFactory;
 import sport.entities.User;
+import sport.wrappers.EntireUserWrapper;
 import sport.wrappers.OverageWrapper;
 import sport.wrappers.UserListWrapper;
 import sport.wrappers.UserWrapper;
 
 public class UserController {
 
-	public UserListWrapper themeList() {
-		List<User> themeList = DaoFactory.getFactory().getUserDao().findAll();
-		UserListWrapper themeListWrapper = new UserListWrapper();
-		for (User theme : themeList) {
-			themeListWrapper.addThemeWrapper(new UserWrapper(theme.getId(), theme.getName()));
+	public UserListWrapper userList() {
+		List<User> userList = DaoFactory.getFactory().getUserDao().findAll();
+		UserListWrapper userListWrapper = new UserListWrapper();
+		for (User user : userList) {
+			EntireUserWrapper userWrapper = new EntireUserWrapper(user.getId(), user.getNick(), user.getEmail());
+			userListWrapper.addUserWrapper(userWrapper);
 		}
-		return themeListWrapper;
+		return userListWrapper;
 	}
 
-	public void createTheme(String themeName) {
-		DaoFactory.getFactory().getUserDao().create(new User(themeName));
+	public void createUser(String nick, String email) {
+		DaoFactory.getFactory().getUserDao().create(new User(nick, email));
 	}
 
 	public OverageWrapper themeOverage(int themeId) {

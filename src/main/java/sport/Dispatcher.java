@@ -21,7 +21,7 @@ public class Dispatcher {
 	public void doGet(HttpRequest request, HttpResponse response) {
 		// **/users
 		if ("users".equals(request.getPath())) {
-			response.setBody(userResource.themeList().toString());
+			response.setBody(userResource.userList().toString());
 			// **/users/{nick}/sport
 		} else if ("users".equals(request.paths()[0]) && "sport".equals(request.paths()[2])) {
 			try {
@@ -30,7 +30,8 @@ public class Dispatcher {
 			} catch (Exception e) {
 				responseError(response, e);
 			}
-		}  else if ("users".equals(request.paths()[0]) && "search".equals(request.paths()[2])) {
+			// **/users/search?sport=*
+		}  else if ("users".equals(request.paths()[0]) && "search".equals(request.paths()[1])) {
 			try {
 				//TODO GET THE QUERY PARAM
 				response.setBody(userResource.themeOverage(Integer.valueOf(request.paths()[1])).toString());
@@ -47,9 +48,10 @@ public class Dispatcher {
 		// POST **/users body=nick:email
 		case "users":
 			try {
-				String userNick = request.getBody().split(":")[0];
-				String userEmail = request.getBody().split(":")[1];
-				userResource.createTheme(request.getBody());
+				String[] bodyParams = request.getBody().split(":");
+				String userNick = bodyParams[0];
+				String userEmail = bodyParams[1];
+				userResource.createTheme(userNick, userEmail);
 				response.setStatus(HttpStatus.CREATED);
 			} catch (InvalidThemeFieldException e) {
 				this.responseError(response, e);
@@ -58,7 +60,7 @@ public class Dispatcher {
 		// POST sport body=sportName
 		case "sports":
 			try {
-				sportResource.createVote(Integer.valueOf(1), Integer.valueOf(2));
+				sportResource.createSport(Integer.valueOf(1), Integer.valueOf(2));
 				response.setStatus(HttpStatus.CREATED);
 			} catch (Exception e) {
 				responseError(response, e);

@@ -2,14 +2,14 @@ package sport.wrappers;
 
 public class UserWrapper {
 	private int id;
-	private String name;
+	private String nick;
 
 	public UserWrapper() {
 	}
 
-	public UserWrapper(int id, String name) {
-		this.setId(id);
-		this.setName(name);
+	public UserWrapper(int id, String nick) {
+		this.id = id;
+		this.nick = nick;
 	}
 
 	public int getId() {
@@ -20,17 +20,17 @@ public class UserWrapper {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNick() {
+		return nick;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 
 	@Override
 	public String toString() {
-		return "{\"id\":" + id + ",\"name\":\"" + name + "\"}";
+		return "{\"id\":" + id + ",\"name\":\"" + nick + "\"}";
 	}
 
 }

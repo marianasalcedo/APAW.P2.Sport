@@ -1,21 +1,18 @@
 package sport.entities;
 
-import java.util.Calendar;
-
 public class User {
 
     private int id;
 
-    private String name;
+    private String nick;
+
+    private String email;
     
-    private Calendar date;
+    public User() {}
 
-    public User() {
-    }
-
-    public User(String name) {
-        this.name = name;
-        this.date = Calendar.getInstance();
+    public User(String name, String email) {
+        this.nick = name;
+        this.email = email;
     }
 
     public int getId() {
@@ -26,17 +23,17 @@ public class User {
 		this.id = id;
 	}
 
-	public String getName() {
-        return name;
+	public String getNick() {
+        return nick;
     }
 
-	public Calendar getDate() {
-		return date;
+	public String getEmail() {
+		return email;
 	}
 
 	@Override
 	public String toString() {
-		return "Theme [id=" + id + ", name=" + name + ", date=" + date + "]";
+		return "User [id=" + id + ", nick=" + nick + ", email=" + email + "]";
 	}
 
 }

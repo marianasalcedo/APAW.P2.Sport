@@ -8,15 +8,16 @@ import sport.wrappers.UserListWrapper;
 
 public class UserResource {
 
-	// GET **/themes
-	public UserListWrapper themeList() {
-		return new UserController().themeList();
+	// GET **/users
+	public UserListWrapper userList() {
+		return new UserController().userList();
 	}
 
-	// POST **/themes   body="themeName"
-	public void createTheme(String themeName) throws InvalidThemeFieldException {
-		this.validateField(themeName);
-		new UserController().createTheme(themeName);
+	// POST **/users   body="nick:email"
+	public void createTheme(String userNick, String userEmail) throws InvalidThemeFieldException {
+		this.validateField(userNick);
+		this.validateField(userEmail);
+		new UserController().createUser(userNick, userEmail);
 	}
 
 	private void validateField(String field) throws InvalidThemeFieldException {
