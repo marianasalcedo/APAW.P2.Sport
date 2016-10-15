@@ -6,8 +6,8 @@ public class EntireUserWrapper extends UserWrapper {
 
 	public EntireUserWrapper() {}
 
-	public EntireUserWrapper(int id, String nick, String email) {
-		super(id, nick);
+	public EntireUserWrapper(String nick, String email) {
+		super(nick);
 		this.email = email;
 	}
 

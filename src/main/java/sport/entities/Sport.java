@@ -1,19 +1,33 @@
 package sport.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Sport {
 
     private int id;
 
     private String name;
+    
+    private List<User> userList;
 
     public Sport() {
     }
 
     public Sport(String sportName) {
         this.name = sportName;
+        this.userList = new ArrayList<>();
     }
 
-    public int getId() {
+    public List<User> getUserList() {
+		return userList;
+	}
+    
+    public void setUser(User user){
+    	this.userList.add(user);
+    }
+
+	public int getId() {
         return id;
     }
 
@@ -28,7 +42,7 @@ public class Sport {
 
 	@Override
 	public String toString() {
-		return "Vote [id=" + id + ", name=" + name + "]";
+		return "Sport [id=" + id + ", name=" + name + "]";
 	}
 
 }

@@ -61,6 +61,7 @@ public class ApiSportMain {
 		request.setPath("users/search");
 		request.clearQueryParams();
 		request.addQueryParam("sport", "tenis");
+		request.setBody("");
 		this.request();
 		
 		//Exceptions

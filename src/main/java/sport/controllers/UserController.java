@@ -1,14 +1,14 @@
 package sport.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import aspects.Validator;
 import sport.daos.DaoFactory;
 import sport.entities.User;
+import sport.exceptions.InvalidFieldException;
+import sport.exceptions.RepeatedEntityException;
 import sport.wrappers.EntireUserWrapper;
-import sport.wrappers.OverageWrapper;
 import sport.wrappers.UserListWrapper;
-import sport.wrappers.UserWrapper;
 
 public class UserController {
 
@@ -16,26 +16,22 @@ public class UserController {
 		List<User> userList = DaoFactory.getFactory().getUserDao().findAll();
 		UserListWrapper userListWrapper = new UserListWrapper();
 		for (User user : userList) {
-			EntireUserWrapper userWrapper = new EntireUserWrapper(user.getId(), user.getNick(), user.getEmail());
+			EntireUserWrapper userWrapper = new EntireUserWrapper(user.getNick(), user.getEmail());
 			userListWrapper.addUserWrapper(userWrapper);
 		}
 		return userListWrapper;
 	}
 
-	public void createUser(String nick, String email) {
-		DaoFactory.getFactory().getUserDao().create(new User(nick, email));
+	public void createUser(String nick, String email) throws RepeatedEntityException, InvalidFieldException {
+		Validator.validateString(nick, "nick del usuario");
+		Validator.validateString(email, "email del usuario");
+		User user = DaoFactory.getFactory().getUserDao().getByName(nick);
+		if(user == null){
+			DaoFactory.getFactory().getUserDao().create(new User(nick, email));
+		}else{
+			throw new RepeatedEntityException("El usuario:" + nick);
+		}
 	}
 
-	public OverageWrapper themeOverage(int themeId) {
-		if (DaoFactory.getFactory().getUserDao().read(themeId) == null) {
-			return null;
-		}
-		List<Integer> voteValues = new ArrayList<>();
-		double total = 0;
-		for (Integer value : voteValues) {
-			total += value;
-		}
-		return new OverageWrapper(total / voteValues.size());
-	}
 
 }

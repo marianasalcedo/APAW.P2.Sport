@@ -1,9 +1,12 @@
 package sport;
 
 import sport.api.UserResource;
+
+import java.util.Arrays;
+import java.util.List;
+
 import sport.api.SportResource;
 import sport.exceptions.InvalidRequestException;
-import sport.exceptions.InvalidThemeFieldException;
 import web.http.HttpRequest;
 import web.http.HttpResponse;
 import web.http.HttpStatus;
@@ -23,18 +26,10 @@ public class Dispatcher {
 		if ("users".equals(request.getPath())) {
 			response.setBody(userResource.userList().toString());
 			// **/users/{nick}/sport
-		} else if ("users".equals(request.paths()[0]) && "sport".equals(request.paths()[2])) {
+		} else if ("users".equals(request.paths()[0]) && "search".equals(request.paths()[1])) {
 			try {
-				// TODO REMOVE THE INTEGER.VALUEOF
-				response.setBody(userResource.themeOverage(Integer.valueOf(request.paths()[1])).toString());
-			} catch (Exception e) {
-				responseError(response, e);
-			}
-			// **/users/search?sport=*
-		}  else if ("users".equals(request.paths()[0]) && "search".equals(request.paths()[1])) {
-			try {
-				//TODO GET THE QUERY PARAM
-				response.setBody(userResource.themeOverage(Integer.valueOf(request.paths()[1])).toString());
+				String sportName = request.getParams().get("sport");
+				response.setBody(sportResource.getUsersBySport(sportName).toString());
 			} catch (Exception e) {
 				responseError(response, e);
 			}
@@ -51,16 +46,16 @@ public class Dispatcher {
 				String[] bodyParams = request.getBody().split(":");
 				String userNick = bodyParams[0];
 				String userEmail = bodyParams[1];
-				userResource.createTheme(userNick, userEmail);
+				userResource.createUser(userNick, userEmail);
 				response.setStatus(HttpStatus.CREATED);
-			} catch (InvalidThemeFieldException e) {
+			} catch (Exception e) {
 				this.responseError(response, e);
 			}
 			break;
 		// POST sport body=sportName
 		case "sports":
 			try {
-				sportResource.createSport(Integer.valueOf(1), Integer.valueOf(2));
+				sportResource.createSport(request.getBody());
 				response.setStatus(HttpStatus.CREATED);
 			} catch (Exception e) {
 				responseError(response, e);
@@ -76,7 +71,8 @@ public class Dispatcher {
 		// PUT **/users/{nick}/sport body=sportName
 		if ("users".equals(request.paths()[0]) && "sport".equals(request.paths()[2])) {
 			try {
-				response.setBody(userResource.themeOverage(Integer.valueOf(request.paths()[1])).toString());
+				List<String> sportsName = Arrays.asList(request.getBody().split(","));
+				response.setBody(sportResource.addUserToSport(request.paths()[1], sportsName));
 			} catch (Exception e) {
 				responseError(response, e);
 			}
